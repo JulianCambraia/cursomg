@@ -43,16 +43,12 @@ public class CursomcApplication implements CommandLineRunner {
         Produto p2 = new Produto(null, "Impressora", 800.00);
         Produto p3 = new Produto(null, "Mouse", 80.00);
 
-        cat1.getProdutos().add(p1);
-        cat1.getProdutos().add(p2);
-        cat1.getProdutos().add(p3);
+        cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
+        cat2.getProdutos().addAll(Arrays.asList(p2));
 
-        cat2.getProdutos().add(p1);
-
-        p1.getCategorias().add(cat1);
-        p2.getCategorias().add(cat1);
-        p2.getCategorias().add(cat2);
-        p3.getCategorias().add(cat1);
+        p1.getCategorias().addAll(Arrays.asList(cat1));
+        p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
+        p3.getCategorias().addAll(Arrays.asList(cat1));
 
         this.categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
         this.produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
