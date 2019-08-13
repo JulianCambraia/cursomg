@@ -2,10 +2,15 @@ package br.com.juliancambraia.cursomc;
 
 import br.com.juliancambraia.cursomc.domain.Categoria;
 import br.com.juliancambraia.cursomc.domain.Cidade;
+import br.com.juliancambraia.cursomc.domain.Cliente;
+import br.com.juliancambraia.cursomc.domain.Endereco;
 import br.com.juliancambraia.cursomc.domain.Estado;
 import br.com.juliancambraia.cursomc.domain.Produto;
+import br.com.juliancambraia.cursomc.domain.enums.TipoClienteEnum;
 import br.com.juliancambraia.cursomc.repositories.CategoriaRepository;
 import br.com.juliancambraia.cursomc.repositories.CidadeRepository;
+import br.com.juliancambraia.cursomc.repositories.ClienteRepository;
+import br.com.juliancambraia.cursomc.repositories.EnderecoRepository;
 import br.com.juliancambraia.cursomc.repositories.EstadoRepository;
 import br.com.juliancambraia.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +32,22 @@ public class CursomcApplication implements CommandLineRunner {
     @Autowired
     private CidadeRepository cidadeRepository;
 
-    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository
-            , EstadoRepository estadoRepository, CidadeRepository cidadeRepository) {
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository,
+                              EstadoRepository estadoRepository, CidadeRepository cidadeRepository,
+                              ClienteRepository clienteRepository,
+                              EnderecoRepository enderecoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.estadoRepository = estadoRepository;
         this.cidadeRepository = cidadeRepository;
+        this.clienteRepository = clienteRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
     public static void main(String[] args) {
@@ -76,5 +91,16 @@ public class CursomcApplication implements CommandLineRunner {
 
         this.estadoRepository.saveAll(Arrays.asList(est1, est2));
         this.cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+        Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912371", TipoClienteEnum.PESSOAFISICA);
+        cli1.getTelefones().addAll(Arrays.asList("27363323", "938388393"));
+
+        Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+        Endereco e2 = new Endereco(null, "Avenida Matos", "100", "Sala 800", "Centro", "38777012", cli1, c2);
+
+        cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+        this.clienteRepository.saveAll(Arrays.asList(cli1));
+        this.enderecoRepository.saveAll(Arrays.asList(e1, e2));
     }
 }
