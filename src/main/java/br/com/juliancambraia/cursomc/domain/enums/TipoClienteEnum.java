@@ -1,13 +1,13 @@
 package br.com.juliancambraia.cursomc.domain.enums;
 
 public enum TipoClienteEnum {
-    PESSOAFISICA(0L, "Pessoa Física"),
-    PESSOAJURIDICA(1L, "Pessoa Jurídica");
+    PESSOAFISICA(1L, "Pessoa Física"),
+    PESSOAJURIDICA(2L, "Pessoa Jurídica");
 
     private Long codigo;
     private String descricao;
 
-    private TipoClienteEnum(Long codigo, String descricao) {
+    TipoClienteEnum(Long codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -25,7 +25,7 @@ public enum TipoClienteEnum {
             return null;
         }
         for (TipoClienteEnum x : TipoClienteEnum.values()) {
-            if (x.equals(x.getCodigo())) {
+            if (codigo.equals(x.getCodigo())) {
                 return x;
             }
         }

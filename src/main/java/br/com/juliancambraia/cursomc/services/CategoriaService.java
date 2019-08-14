@@ -3,7 +3,6 @@ package br.com.juliancambraia.cursomc.services;
 import br.com.juliancambraia.cursomc.domain.Categoria;
 import br.com.juliancambraia.cursomc.repositories.CategoriaRepository;
 import br.com.juliancambraia.cursomc.services.exceptions.ObjectNotFoundExeption;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import java.util.Optional;
 public class CategoriaService {
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private final CategoriaRepository categoriaRepository;
 
     public CategoriaService(CategoriaRepository categoriaRepository) {
         this.categoriaRepository = categoriaRepository;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoriaResource {
 
     @Autowired
-    private CategoriaService categoriaService;
+    private final CategoriaService categoriaService;
 
     public CategoriaResource(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;

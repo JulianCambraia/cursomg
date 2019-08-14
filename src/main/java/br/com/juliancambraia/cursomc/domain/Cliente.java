@@ -1,6 +1,7 @@
 package br.com.juliancambraia.cursomc.domain;
 
 import br.com.juliancambraia.cursomc.domain.enums.TipoClienteEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -39,6 +40,7 @@ public class Cliente implements Serializable {
 
     private Long tipoClienteEnum;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 

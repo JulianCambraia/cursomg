@@ -38,18 +38,6 @@ public class CursomcApplication implements CommandLineRunner {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository,
-                              EstadoRepository estadoRepository, CidadeRepository cidadeRepository,
-                              ClienteRepository clienteRepository,
-                              EnderecoRepository enderecoRepository) {
-        this.categoriaRepository = categoriaRepository;
-        this.produtoRepository = produtoRepository;
-        this.estadoRepository = estadoRepository;
-        this.cidadeRepository = cidadeRepository;
-        this.clienteRepository = clienteRepository;
-        this.enderecoRepository = enderecoRepository;
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
     }
