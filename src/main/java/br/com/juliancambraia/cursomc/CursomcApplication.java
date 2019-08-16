@@ -5,24 +5,34 @@ import br.com.juliancambraia.cursomc.domain.Cidade;
 import br.com.juliancambraia.cursomc.domain.Cliente;
 import br.com.juliancambraia.cursomc.domain.Endereco;
 import br.com.juliancambraia.cursomc.domain.Estado;
+import br.com.juliancambraia.cursomc.domain.Pagamento;
+import br.com.juliancambraia.cursomc.domain.PagamentoComBoleto;
+import br.com.juliancambraia.cursomc.domain.PagamentoComCartao;
+import br.com.juliancambraia.cursomc.domain.Pedido;
 import br.com.juliancambraia.cursomc.domain.Produto;
+import br.com.juliancambraia.cursomc.domain.enums.EstadoPagamento;
 import br.com.juliancambraia.cursomc.domain.enums.TipoClienteEnum;
 import br.com.juliancambraia.cursomc.repositories.CategoriaRepository;
 import br.com.juliancambraia.cursomc.repositories.CidadeRepository;
 import br.com.juliancambraia.cursomc.repositories.ClienteRepository;
 import br.com.juliancambraia.cursomc.repositories.EnderecoRepository;
 import br.com.juliancambraia.cursomc.repositories.EstadoRepository;
+import br.com.juliancambraia.cursomc.repositories.PagamentoRepository;
+import br.com.juliancambraia.cursomc.repositories.PedidoRepository;
 import br.com.juliancambraia.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
 
+    public static final String PATTERN = "dd/MM/yyyy HH:mm";
     @Autowired
     private CategoriaRepository categoriaRepository;
     @Autowired
@@ -37,6 +47,12 @@ public class CursomcApplication implements CommandLineRunner {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
@@ -90,5 +106,27 @@ public class CursomcApplication implements CommandLineRunner {
 
         this.clienteRepository.saveAll(Arrays.asList(cli1));
         this.enderecoRepository.saveAll(Arrays.asList(e1, e2));
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(PATTERN);
+
+        LocalDateTime dt1 = LocalDateTime.parse("30/09/2017 10:32", dtf);
+        Pedido ped1 = new Pedido(dt1, cli1, e1);
+
+        LocalDateTime dt2 = LocalDateTime.parse("10/10/2017 19:35", dtf);
+        Pedido ped2 = new Pedido(dt2, cli1, e2);
+
+        Pagamento pagto1 = new PagamentoComCartao(EstadoPagamento.QUITADO, ped1, 6);
+        ped1.setPagamento(pagto1);
+
+        LocalDateTime dtv = LocalDateTime.parse("20/10/2017 23:59", dtf);
+        LocalDateTime dtp = null;
+        Pagamento pagto2 = new PagamentoComBoleto(EstadoPagamento.PENDENTE, ped2, dtv, dtp);
+        ped2.setPagamento(pagto2);
+
+        cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+        this.pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+        this.pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
     }
 }
