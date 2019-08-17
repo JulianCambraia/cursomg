@@ -9,11 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "produto")
@@ -36,6 +39,9 @@ public class Produto implements Serializable {
     )
     List<Categoria> categorias = new ArrayList<>();
 
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itens = new HashSet<>();
+
     public Produto() {
     }
 
@@ -43,6 +49,17 @@ public class Produto implements Serializable {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
+    }
+
+    public List<Pedido> getPedidos() {
+        List<Pedido> pedidoList = new ArrayList<>();
+
+        for (ItemPedido item : itens) {
+            pedidoList.add(item.getPedido());
+
+        }
+
+        return pedidoList;
     }
 
     public Long getId() {
@@ -77,6 +94,14 @@ public class Produto implements Serializable {
         this.categorias = categorias;
     }
 
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,4 +114,5 @@ public class Produto implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
 }
