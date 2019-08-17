@@ -1,7 +1,5 @@
 package br.com.juliancambraia.cursomc.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +25,6 @@ public class Categoria implements Serializable {
     @Column
     private String nome;
 
-    @JsonManagedReference
     @ManyToMany(mappedBy = "categorias")
     List<Produto> produtos = new ArrayList<>();
 
