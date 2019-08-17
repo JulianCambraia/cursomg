@@ -1,13 +1,18 @@
 package br.com.juliancambraia.cursomc.domain;
 
 import br.com.juliancambraia.cursomc.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
 @Entity
 public class PagamentoComBoleto extends Pagamento {
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataVencimento;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataPagamento;
 
     public PagamentoComBoleto() {
